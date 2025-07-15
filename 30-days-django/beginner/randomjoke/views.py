@@ -31,3 +31,10 @@ def quote_OfThe_Day(request):
     quote=random.choice(quotes)
     return render(request,'app/layout.html',{'quote':quote})
 
+def display(request):
+    return render(request,'app1/index.html')
+
+def quotes_the(request,id):
+    quote=quotes[id]
+    return render(request,'app1/display.html',{'quote':quote})
+

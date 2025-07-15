@@ -1,28 +1,30 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=<>, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
 </head>
 <body>
-    <table border=1>
-        <th>Quotes of the day </th>
+    <table border=1 class="t1">
+        <th colspan =2>Quotes of the day </th>
             <tr>
-                <td><a href="#">sunday</a></td>
-                <td><a href="#">monday</a></td>
+                <center><td><a href="{% url 'quotes_the' 0 %}">sunday</a></td></center>
+                <td><a href="{% url 'quotes_the' 1 %}">monday</a></td>
                 
             </tr>
             <tr>
-                <td><a href="#">Tuesday</a></td>
-               <td><a href="#">wednesday</a></td>
+                <td><a href="{% url 'quotes_the' 2 %}">Tuesday</a></td>
+               <td><a href="{% url 'quotes_the' 3 %}">wednesday</a></td>
             </tr>
             <tr>
-               <td><a href="#">Thursday</a></td>
-               <td><a href="#">Friday</a></td>
+               <td><a href="{% url 'quotes_the' 4 %}">Thursday</a></td>
+               <td><a href="{% url 'quotes_the' 5 %}">Friday</a></td>
             </tr>
             <tr>
-               <td><a href="#">saturday</a></td>
+               <td><a href="{% url 'quotes_the' 6 %}">saturday</a></td>
             </tr>
 
        
