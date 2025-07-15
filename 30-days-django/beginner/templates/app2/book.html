@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Manager</title>
+    <link rel="stylesheet" href={% static 'style2.css' %}>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">📚 Book Manager</div>
+    <ul class="nav-links">
+        <li><a href="{% url 'Home' %}">Home</a></li>
+        <li><a href="#">All Books</a></li>
+        <li><a href="#">Add Book</a></li>
+        <li><a href="#">Search</a></li>
+        <li><a href="/admin/">Admin</a></li>
+        <li><a href="#">Login</a></li>
+    </ul>
+</nav>
+<h1 class="page-title">📚 Book Collection</h1>
+
+<div class="book-grid">
+    {% for book in books %}
+    <div class="book-card">
+        <img src="{{ book.image.url }}" alt="book" class="book-img">
+        <div class="book-info">
+            <h3 class="book-title">{{ book.title }}</h3>
+            <p class="book-name">{{ book.book_name }}</p>
+            <p class="book-rating">⭐ {{ book.rate }}/5</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

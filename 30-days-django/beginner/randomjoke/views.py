@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import random
+from .models import Book
 # Create your views here.
 jokes=[
     "this is first  joke",
@@ -38,3 +39,13 @@ def quotes_the(request,id):
     quote=quotes[id]
     return render(request,'app1/display.html',{'quote':quote})
 
+
+
+def Boks(request):
+    books=Book.objects.all()
+    return render(request,'app2/book.html',{'books':books})
+
+
+def Home(request):
+    books=Book.objects.all()
+    return render(request,'app2/book.html',{'books':books})
