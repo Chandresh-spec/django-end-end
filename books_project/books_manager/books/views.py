@@ -17,13 +17,6 @@ def Home_page(request):
 
 
 
-from django import template
 
-register = template.Library()
 
-@register.filter
-def average(queryset, field):
-    values = [getattr(obj, field) for obj in queryset if getattr(obj, field) is not None]
-    if not values:
-        return 0
-    return round(sum(values) / len(values), 1)
+

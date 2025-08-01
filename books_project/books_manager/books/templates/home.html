@@ -1,5 +1,6 @@
 {% extends "index.html" %}
 
+{% load custom_tags %}
 
 
 
@@ -17,15 +18,29 @@
             <p class="author">👤 {{ book.author.name }}</p>
 
             <p class="rating">
-                ⭐ Average Rating: 
-                {% with book.rating_set.all as ratings %}
-                    {% if ratings %}
-                        {{ ratings|length|yesno:"0," }}{{ ratings|average:"stars" }} / 5
-                    {% else %}
-                        No ratings yet
-                    {% endif %}
-                {% endwith %}
+           ⭐ Average Rating: 
+           {% with book.rating_set.all as ratings %}
+           {% if ratings %}
+           {{ratings|average}}
+           {% else %}
+
+           not ratings
+         
+
+           
+           {% endif %}
+           
+           
+           
+           {% endwith %}
+
+          
             </p>
+            
+          
+            
+            
+            
 
             <details class="reviews">
                 <summary>💬 Reviews</summary>
@@ -34,13 +49,13 @@
                         <p><strong>{{ r.user.username }}</strong>: {{ r.comment }}</p>
                     {% endif %}
                 {% endfor %}
-            </details>
-        </div>
-    </div>
-    {% endfor %}
-</div>
+                </details>
+                </div>
+                </div>
+               {% endfor %}
+               </div>
 
-{% endblock %}
+              {% endblock %}
 
 
 
