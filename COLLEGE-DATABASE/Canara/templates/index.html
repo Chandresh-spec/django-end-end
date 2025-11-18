@@ -1,0 +1,135 @@
+<!--
+Premium Student Management System
+Single-file HTML + CSS (no external libraries required)
+Features:
+- Modern color combo: deep navy background + teal to purple gradient accents
+- Glassmorphism cards, smooth micro-animations, subtle floating effect
+- Responsive layout (desktop/tablet/mobile)
+- Student list table, header nav, create button, search input
+- Comments inside code to guide integration into Django later
+-->
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<title> canara college</title>
+<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">CC</div>
+        <div>
+          <h1>Student Management</h1>
+          <p>Premium dashboard</p>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a class="active" href="#">Students</a>
+        <a href="#">Courses</a>
+        <a href="#">Teachers</a>
+        <button class="btn ghost">Sign out</button>
+      </div>
+    </div>
+
+    <!-- MAIN COLUMN -->
+    <main>
+      <div class="header-card">
+        <div class="header-left">
+          <h2>Students</h2>
+          <p>Manage students, profiles and course enrollments</p>
+        </div>
+        <div class="header-actions row">
+          <div class="search">
+            <input class="input" placeholder="Search students, emails or courses..." />
+          </div>
+          <button class="btn">Create Student</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:22px">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Courses</th>
+              <th style="text-align:right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="name">Alice</div>
+                <div class="sub">Profile: Mangalore • DOB: 2003-05-14</div>
+              </td>
+              <td>alice@gmail.com</td>
+              <td>
+                <div class="pill">Python Basics</div>
+                <div style="height:8px"></div>
+                <div class="pill">DBMS</div>
+              </td>
+              <td style="text-align:right">
+                <div class="actions" style="justify-content:flex-end">
+                  <button class="pill">View</button>
+                  <button class="pill edit">Edit</button>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="name">Bob</div>
+                <div class="sub">Profile: Udupi • DOB: 2004-02-10</div>
+              </td>
+              <td>bob@gmail.com</td>
+              <td>
+                <div class="pill">Python Basics</div>
+              </td>
+              <td style="text-align:right">
+                <div class="actions" style="justify-content:flex-end">
+                  <button class="pill">View</button>
+                  <button class="pill edit">Edit</button>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Add more rows or render via Django template loop -->
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="card" style="margin-bottom:16px">
+        <div class="stat">
+          <div>
+            <div class="num">24</div>
+            <p>Total Students</p>
+          </div>
+          <div style="margin-left:auto">
+            <div style="width:56px;height:56px;border-radius:12px;background:var(--accent-grad);display:grid;place-items:center;font-weight:800;color:white">S</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 12px 0">Quick Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn">Add Course</button>
+          <button class="btn ghost">Invite Teacher</button>
+          <button class="btn ghost">Export CSV</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+</body>
+</html>
