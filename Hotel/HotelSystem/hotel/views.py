@@ -5,13 +5,22 @@ from .serializers import CustomerSerializer,RegistrationSerializer,loginserializ
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.pagination import PageNumberPagination
 # Create your views here.
 
 class customer(APIView):
+    authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         items=CustomerInfo.objects.all()
-        serializer=CustomerSerializer(items,many=True)
-        return  Response(serializer.data)
+        paginator=PageNumberPagination()
+        paginator.page_size=3
+        paginator_items=paginator.paginate_queryset(items,request)
+        serializer=CustomerSerializer(paginator_items,many=True)
+        return  paginator.get_paginated_response(serializer.data)
     
 
     def post(self,request):
@@ -134,16 +143,27 @@ class Login_View(APIView):
 
             user=authenticate(username=username,password=password)
 
-            if user:
+            if  not user:
               return Response({
-                "status":True,
-                "message":"user logged in"
-            },status=status.HTTP_200_OK)
-        return Response({
-            "status":False,
-            "message":"user not found",
-            "error":serializer.errors
-        },status=status.HTTP_400_BAD_REQUEST)
+                "status":False,
+                "message":"validation Failed"
+            },status=status.HTTP_400_BAD_REQUEST)
+            token, _ = Token.objects.get_or_create(user=user)  
+            return Response({
+                "status":False,
+                "message":"user not found",
+                "error":serializer.errors,
+                "Token":token.key
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+
+        return Response(
+            {
+                "status":False,
+                "errors":serializer.errors,
+                "message":"validation failed"
+            }
+        )
 
 
     
