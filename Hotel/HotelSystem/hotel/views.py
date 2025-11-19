@@ -166,4 +166,6 @@ class Login_View(APIView):
         )
 
 
-    
+
+def home(request):
+    return render(request,'index.html')

@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer API Frontend</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- LOGIN -->
+    <div class="container" id="loginBox">
+        <h2>Login</h2>
+        <input type="text" id="loginUser" placeholder="Username">
+        <input type="password" id="loginPass" placeholder="Password">
+        <button onclick="loginUser()">Login</button>
+
+        <p style="text-align:center;margin-top:15px;">
+            Not a user? <a href="#" onclick="showRegister()">Register</a>
+        </p>
+    </div>
+
+    <!-- REGISTRATION -->
+    <div class="container hidden" id="registerBox">
+        <h2>Register</h2>
+        <input type="text" id="regUser" placeholder="Username">
+        <input type="email" id="regEmail" placeholder="Email">
+        <input type="password" id="regPass" placeholder="Password">
+        <button onclick="registerUser()">Register</button>
+
+        <p style="text-align:center;margin-top:15px%;">
+            Already a user? <a href="#" onclick="showLogin()">Login</a>
+        </p>
+    </div>
+
+    <!-- CUSTOMER DASHBOARD -->
+    <div class="container hidden" id="dashboard">
+        <h2>Customer Dashboard</h2>
+
+        
+
+        <h3>Add Customer</h3>
+        <input type="text" id="cname" placeholder="Customer Name">
+        <input type="text" id="cphone" placeholder="Mobile Number">
+        <input type="text" id="corder" placeholder="Order Name">
+        <input type="number" id="ctable" placeholder="Table Number">
+
+        <button onclick="addCustomer()">Add</button>
+
+        <h3>Customer List</h3>
+        <div id="customerList"></div>
+    </div>
+
+<script>
+const BASE_URL = "http://127.0.0.1:8000/hotel";
+
+// Switch UI
+function showRegister(){
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("registerBox").classList.remove("hidden");
+}
+
+function showLogin(){
+    document.getElementById("registerBox").classList.add("hidden");
+    document.getElementById("loginBox").classList.remove("hidden");
+}
+
+// LOGIN
+async function loginUser(){
+    let username = document.getElementById("loginUser").value;
+    let password = document.getElementById("loginPass").value;
+
+    let res = await fetch(`${BASE_URL}/login/`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, password})
+    });
+
+    let data = await res.json();
+
+    if(data.Token){
+        localStorage.setItem("token", data.Token);
+        document.getElementById("loginBox").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+        loadCustomers();
+    } else {
+        alert("Login Failed!");
+    }
+}
+
+// REGISTER
+async function registerUser(){
+    let username = document.getElementById("regUser").value;
+    let email = document.getElementById("regEmail").value;
+    let password = document.getElementById("regPass").value;
+
+    let res = await fetch(`${BASE_URL}/register/`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, email, password})
+    });
+
+    let data = await res.json();
+
+    if(data.status){
+        alert("Registration Successful!");
+        showLogin();
+    } else {
+        alert("Registration Failed!");
+    }
+}
+
+// LOAD CUSTOMERS
+async function loadCustomers(){
+    let token = localStorage.getItem("token");
+
+    let res = await fetch(`${BASE_URL}/customer/`, {
+        method: "GET",
+        headers: {"Authorization": `Token ${token}`}
+    });
+
+    let data = await res.json();
+    let list = document.getElementById("customerList");
+    list.innerHTML = "";
+
+    data.results.forEach(c => {
+        list.innerHTML += `
+            <div class="customer-card">
+                <b>${c.cus_name}</b> <br>
+                Mobile: ${c.cus_mobile}<br>
+                Order: ${c.order}<br>
+                Table: ${c.table_num}<br><br>
+
+                <button onclick="updateCustomerPrompt(${c.id}, '${c.cus_name}', '${c.cus_mobile}', '${c.order}', ${c.table_num})">Update</button>
+                <button onclick="deleteCustomer(${c.id})">Delete</button>
+            </div>
+        `;
+    });
+}
+
+// ADD CUSTOMER
+async function addCustomer(){
+    let token = localStorage.getItem("token");
+
+    let body = {
+        cus_name: document.getElementById("cname").value,
+        cus_mobile: document.getElementById("cphone").value,
+        order: document.getElementById("corder").value,
+        table_num: document.getElementById("ctable").value
+    };
+
+    let res = await fetch(`${BASE_URL}/customer/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${token}`
+        },
+        body: JSON.stringify(body)
+    });
+
+    let data = await res.json();
+
+    if(data.status){
+        alert("Customer Added!");
+        loadCustomers();
+    } else {
+        alert("Failed to add customer");
+    }
+}
+
+// UPDATE CUSTOMER (Prompt)
+async function updateCustomerPrompt(id, name, mobile, order, table){
+    let newName = prompt("Enter new name:", name);
+    let newMobile = prompt("Enter new mobile:", mobile);
+    let newOrder = prompt("Enter new order:", order);
+    let newTable = prompt("Enter new table number:", table);
+
+    updateCustomer(id, newName, newMobile, newOrder, newTable);
+}
+
+// UPDATE CUSTOMER (PATCH)
+async function updateCustomer(id, cus_name, cus_mobile, order, table_num){
+    let token = localStorage.getItem("token");
+
+    let body = { cus_name, cus_mobile, order, table_num };
+
+    let res = await fetch(`${BASE_URL}/customer/?id=${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${token}`
+        },
+        body: JSON.stringify(body)
+    });
+
+    let data = await res.json();
+    alert("Updated!");
+    loadCustomers();
+}
+
+// DELETE CUSTOMER
+async function deleteCustomer(id){
+    let token = localStorage.getItem("token");
+
+    let res = await fetch(`${BASE_URL}/customer/?id=${id}`, {
+        method: "DELETE",
+        headers: {"Authorization": `Token ${token}`}
+    });
+
+    let data = await res.json();
+    alert(data.message);
+    loadCustomers();
+}
+
+// LOGOUT
+function logout(){
+    localStorage.clear();
+    document.getElementById("dashboard").classList.add("hidden");
+    document.getElementById("loginBox").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>

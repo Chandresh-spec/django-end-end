@@ -1,0 +1,100 @@
+/* GENERAL */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+.container {
+    width: 350px;
+    margin: 60px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+/* INPUT FIELDS */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    box-sizing: border-box;
+}
+
+input:focus {
+    border-color: #007bff;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* CUSTOMER LIST */
+#customerList {
+    margin-top: 20px;
+}
+
+.customer-card {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border-left: 6px solid #007bff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+}
+
+.customer-card button {
+    width: 48%;
+    margin-top: 8px;
+}
+
+.customer-card button:first-child {
+    background: #28a745;
+}
+
+.customer-card button:first-child:hover {
+    background: #1e7e34;
+}
+
+.customer-card button:last-child {
+    background: #dc3545;
+}
+
+.customer-card button:last-child:hover {
+    background: #a71d2a;
+}
+
+/* LOGOUT BUTTON */
+#logoutBtn {
+    background: #ff5722;
+}
+
+#logoutBtn:hover {
+    background: #d84315;
+}
