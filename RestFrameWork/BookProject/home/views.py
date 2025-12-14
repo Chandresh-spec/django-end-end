@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from .models import Books
 from .serializers import BookSerializers
 from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
 
 from rest_framework.generics import GenericAPIView
 
@@ -135,5 +136,11 @@ class BookMixinsView(
     def delete(self,request,pk):
         return self.destroy(request,pk=pk)
 
+
+
+
+class BookViewset(ModelViewSet):
+    queryset=Books.objects.all()
+    serializer_class=BookSerializers
 
 
