@@ -12,7 +12,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import GenericAPIView
 
 from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,UpdateModelMixin,DestroyModelMixin
-
+from .pagination import BookPagination,LimitOffsetPagination
 # Create your views here.
 
 
@@ -21,9 +21,12 @@ class Boooks_views(APIView):
     def get(self,request):
         book=Books.objects.all()
 
-        serializer=BookSerializers(book,many=True)
+        paginator=BookPagination()
+        page=paginator.paginate_queryset(book,request)
 
-        return Response(serializer.data)
+        serializer=BookSerializers(page,many=True)
+
+        return paginator.get_paginated_response(serializer.data)
     
 
 
@@ -141,6 +144,7 @@ class BookMixinsView(
 
 class BookViewset(ModelViewSet):
     queryset=Books.objects.all()
+    pagination_class=LimitOffsetPagination
     serializer_class=BookSerializers
 
 
